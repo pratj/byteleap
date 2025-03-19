@@ -1,0 +1,23 @@
+{
+    "name": "ByteLeap",
+    "image": "docker.io/node:lts",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                "formulahendry.auto-complete-tag",
+                "bradlc.vscode-tailwindcss",
+                "yoavbls.pretty-ts-errors",
+                "saoudrizwan.claude-dev"
+            ]
+        }
+    },
+    "containerUser": "node",
+    "runArgs": [
+        "--userns=keep-id"
+    ],
+    "containerEnv": {
+        "HOME": "/home/node"
+    }
+}
