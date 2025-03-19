@@ -1,21 +1,23 @@
-import db from "@/db";
-import { betterAuth, BetterAuthOptions } from "better-auth";
+import { BetterAuthOptions, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { nextCookies } from "better-auth/next-js";
 import { openAPI } from "better-auth/plugins";
 
- 
+import db from "@/db";
+
+import { account, session, user } from "../../auth-schema";
+
 export const auth = betterAuth({
-    database: drizzleAdapter(db, {
-        provider: "pg", 
-    }),
-    plugins: [openAPI()], // api/auth/reference
-    socialProviders: {
-        github: { 
-            clientId: process.env.GITHUB_CLIENT_ID as string, 
-            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
-        }, 
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: {
+      user,
+      account,
+      session,
     },
-    emailAndPassword: {
-        enabled: true,
-    },
+  }),
+  plugins: [openAPI(), nextCookies()], // api/auth/reference
+  emailAndPassword: {
+    enabled: true,
+  },
 } satisfies BetterAuthOptions);
